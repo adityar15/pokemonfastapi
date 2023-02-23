@@ -6,7 +6,7 @@ from database import engine, SessionLocal, Base
 from sqlalchemy.orm import Session, subqueryload
 import helpers
 import fileuploads
-
+from typing import List
 
 app = FastAPI()
 
@@ -70,7 +70,7 @@ def uploadPokemonStats(pokemonStatsCSVFile: UploadFile, db : Session = Depends(g
 
 
 
-@app.get("/pokemon", response_model=list[PokemonResponseModel])
+@app.get("/pokemon", response_model=List[PokemonResponseModel])
 def getAllPokemons(db: Session = Depends(get_db)):
     # avoid n+1 problem with eager loading using subqueryload (will be discussed in the session remind me if I forget please :))
     pokemons  = db.query(models.Pokemon).options(subqueryload(models.Pokemon.stats)).all()
