@@ -76,6 +76,6 @@ def getPokemon(pokemon_name : str, db: Session = Depends(get_db)):
     # That's the power of postgresql. It's a lot easier to use it than to use other databases in some cases.
     pokemon = db.query(models.Pokemon).filter(models.Pokemon.name.ilike(pokemon_name)).first()
     if not pokemon:
-        raise HTTPException("Pokemon not found", 404)
+        raise HTTPException(404, "Pokemon not found")
     return pokemon
 

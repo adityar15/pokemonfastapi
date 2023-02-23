@@ -7,7 +7,7 @@ def register(user, db):
 
     userDetails = getUserByEmail(user.email, db)
     if userDetails:
-        raise HTTPException("User already exists", 400)
+        raise HTTPException(400, "User already exists")
     hashedPassword = passwordContext.hash(user.password)
     
     newUser = User(name=user.name, email=user.email, password=hashedPassword)
@@ -21,12 +21,12 @@ def login(user, db):
     userDetails = getUserByEmail(user.email, db)
 
     if not userDetails:
-        raise HTTPException("Email not found", 404)
+        raise HTTPException(404, "Email not found")
     
     passwordCheck = passwordContext.verify(user.password, userDetails.password)
 
     if not passwordCheck:
-        raise HTTPException("Incorrect credentials", 401)
+        raise HTTPException(401,"Incorrect credentials")
 
     return userDetails
 
